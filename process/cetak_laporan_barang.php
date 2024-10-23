@@ -77,7 +77,7 @@ include('../config/function.php');
     ?>
     <div style="page-break-after:always;text-align:center;margin-top:5%;">
         <div style="line-height:5px;">
-            <h2>LAPORAN BARANG MI NUR JALIN</h2>
+            <h2>LAPORAN BARANG TIK FKES</h2>
             <h4>TGL:
                 <?= date('d-m-Y', strtotime($now)); ?>
             </h4>

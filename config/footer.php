@@ -29,7 +29,7 @@
     aria-hidden="true" data-backdrop="static">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <form action="<?=base_url();?>process/process_kasir.php?act=<?=encrypt('ganti_pass');?>" method="post">
+            <form action="<?=base_url();?>process/process_ganti_pass.php?act=<?=encrypt('ganti_pass');?>" method="post">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Ganti Password</h5>
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close">
@@ -40,7 +40,7 @@
                     <div class="form-group">
                         <label class="text-black">Password Baru</label>
                         <input type="hidden" name="id" value="<?=$_SESSION['id'];?>">
-                        <input type="password" name="password" class="form-control">
+                        <input type="password" name="password" class="form-control" required>
                     </div>
                 </div>
                 <div class="modal-footer">

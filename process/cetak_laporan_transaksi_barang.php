@@ -52,7 +52,7 @@ include ('../config/function.php');
     ?>
     <div style="page-break-after:always;text-align:center;margin-top:5%;">
         <div style="line-height:5px;">
-        <h2>LAPORAN BARANG <?= strtoupper($jenis_transaksi); ?> MI NUR JALIN</h2>
+        <h2>LAPORAN BARANG <?= strtoupper($jenis_transaksi); ?> TIK FKES</h2>
             <h4><?= date('d-m-Y',strtotime($tanggal_awal)); ?> - <?= date('d-m-Y',strtotime($tanggal_akhir)); ?></h4>
         </div>
         <hr style="border-color:black;">
