@@ -1,6 +1,7 @@
 <?php hakAkses(['admin']); ?>
 <script>
 var idBarang = '';
+
 function submit(x) {
     if (x == 'add') {
         $('#barangkeluarModal .modal-title').html('Tambah barang keluar');
@@ -12,8 +13,8 @@ function submit(x) {
         $('#id_barang').prop('disabled', true);
         $('[name="stok"]').val('')
         $('[name="stok_display"]').val('')
-            
-            
+
+
         $('[name="id_merek"]').val("").trigger('change')
         $('[name="id_kategori"]').val("").trigger('change')
         $('[name="id_kondisi"]').val("").trigger('change')
@@ -49,7 +50,7 @@ function submit(x) {
                 $('[name="id"]').val(data.id_transaksi);
                 idBarang = data.id_barang
                 $('[name="id_ruangan"]').val(data.id_ruangan).trigger("change");
-                
+
                 $('[name="jumlah"]').val(data.jumlah)
                 $('[name="keterangan_transaksi"]').val(data.keterangan_transaksi)
                 $('[name="tanggal"]').val(data.tanggal)
@@ -57,49 +58,50 @@ function submit(x) {
         });
     }
 
-        function setAllProperty() {
-            let selectedOption = $('#id_barang').find("option:selected");
-            if (!selectedOption) return;
-            let idMerek = selectedOption.data("id-merek")
-            let idKategori = selectedOption.data("id-kategori")
-            let idKondisi = selectedOption.data("id-kondisi")
-            let stok = selectedOption.data("stok")
+    function setAllProperty() {
+        let selectedOption = $('#id_barang').find("option:selected");
+        if (!selectedOption) return;
+        let idMerek = selectedOption.data("id-merek")
+        let idKategori = selectedOption.data("id-kategori")
+        let idKondisi = selectedOption.data("id-kondisi")
+        let stok = selectedOption.data("stok")
 
-            $('[name="id_merek"]').val(idMerek)
-            $('[name="id_kategori"]').val(idKategori)
-            $('[name="id_kondisi"]').val(idKondisi)
+        $('[name="id_merek"]').val(idMerek)
+        $('[name="id_kategori"]').val(idKategori)
+        $('[name="id_kondisi"]').val(idKondisi)
 
-            // Ini
-            $('[name="stok"]').val(stok)
-            $('[name="stok_display"]').val(stok)
-        }
-        
-        function enableBarang() {
-            let selectedOption = $('#id_ruangan').find("option:selected").val()
-            if (!selectedOption) return;
-            $.ajax({
-                type: "POST",
-                data: {
-                    id_ruangan: selectedOption
-                },
-                url: '<?= base_url(); ?>process/view_barang_by_ruangan.php',
-                dataType: 'json',
-                success: function (data) {
-                    $("#id_barang").empty();
+        // Ini
+        $('[name="stok"]').val(stok)
+        $('[name="stok_display"]').val(stok)
+    }
 
-                    if (!data.result) {
-                        $("#id_barang").append('<option value="">-- Tidak ada data barang di ruangan --</option>');
-                        return;
-                    }
+    function enableBarang() {
+        let selectedOption = $('#id_ruangan').find("option:selected").val()
+        if (!selectedOption) return;
+        $.ajax({
+            type: "POST",
+            data: {
+                id_ruangan: selectedOption
+            },
+            url: '<?= base_url(); ?>process/view_barang_by_ruangan.php',
+            dataType: 'json',
+            success: function(data) {
+                $("#id_barang").empty();
 
-                    $('#id_barang').prop('disabled', false);
-                    $("#id_barang").append(data.result);
-                    $('[name="id_barang"]').val(idBarang).trigger('change')
-
+                if (!data.result) {
+                    $("#id_barang").append(
+                        '<option value="">-- Tidak ada data barang di ruangan --</option>');
+                    return;
                 }
-            });
-        }
-  
+
+                $('#id_barang').prop('disabled', false);
+                $("#id_barang").append(data.result);
+                $('[name="id_barang"]').val(idBarang).trigger('change')
+
+            }
+        });
+    }
+
     $(document).ready(function() {
         $("#id_barang").on("change", setAllProperty);
         $("#id_ruangan").on("change", enableBarang)
@@ -116,14 +118,15 @@ function submit(x) {
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <a href="#" class="btn btn-primary btn-icon-split btn-sm" data-toggle="modal" data-target="#barangkeluarModal" onclick="submit('add', '<?= $_SESSION['id'] ?>')">
+            <a href="#" class="btn btn-primary btn-icon-split btn-sm" data-toggle="modal"
+                data-target="#barangkeluarModal" onclick="submit('add', '<?= $_SESSION['id'] ?>')">
                 <span class="icon text-white-50">
                     <i class="fas fa-plus"></i>
                 </span>
                 <span class="text">Tambah</span>
             </a>
-            <a href="<?=base_url();?>process/cetak_laporan_transaksi_barang_today.php?jenis_transaksi=masuk" target="_blank"
-                class="btn btn-info btn-icon-split btn-sm float-right">
+            <a href="<?=base_url();?>process/cetak_laporan_transaksi_barang_today.php?jenis_transaksi=masuk"
+                target="_blank" class="btn btn-info btn-icon-split btn-sm float-right">
                 <span class="icon text-white-50">
                     <i class="fas fa-print"></i>
                 </span>
@@ -140,7 +143,7 @@ function submit(x) {
                             <th>NAMA</th>
                             <th>MEREK</th>
                             <th>KATEGORI</th>
-                            <th>RUANGAN</th>
+                            <th>DISTRIBUSI</th>
                             <th>KONDISI</th>
                             <th>JUMLAH</th>
                             <th>KETERANGAN</th>
@@ -164,14 +167,16 @@ function submit(x) {
                             <td><?= $row['jumlah']; ?></td>
                             <td><?= $row['keterangan_transaksi']; ?></td>
                             <td>
-                            <div class="d-inline-flex p-2">
-                                <a href="#barangkeluarModal" data-toggle="modal" onclick="submit(<?=$row['id_transaksi'];?>)"
-                                    class="btn btn-sm btn-circle btn-info mr-2"><i class="fas fa-edit"></i></a>
+                                <div class="d-inline-flex p-2">
+                                    <a href="#barangkeluarModal" data-toggle="modal"
+                                        onclick="submit(<?=$row['id_transaksi'];?>)"
+                                        class="btn btn-sm btn-circle btn-info mr-2"><i class="fas fa-edit"></i></a>
                                     <?php if($_SESSION['role'] == 'admin'):?>
-                                <a href="<?=base_url();?>/process/process_barang_keluar.php?act=<?=encrypt('delete');?>&id=<?=encrypt($row['id_transaksi']);?>"
-                                    class="btn btn-sm btn-circle btn-danger btn-hapus"><i class="fas fa-trash"></i></a>
+                                    <a href="<?=base_url();?>/process/process_barang_keluar.php?act=<?=encrypt('delete');?>&id=<?=encrypt($row['id_transaksi']);?>"
+                                        class="btn btn-sm btn-circle btn-danger btn-hapus"><i
+                                            class="fas fa-trash"></i></a>
                                     <?php endif;?>
-                            </div>
+                                </div>
                             </td>
                         </tr>
                         <?php endwhile; ?>
@@ -202,14 +207,15 @@ function submit(x) {
                             <div class="form-group">
                                 <label for="tanggal">Tanggal<span class="text-danger">*</span></label>
                                 <input type="hidden" name="id" class="form-control">
-                                <input type="hidden" name="id_kasir" value="<?= $_SESSION['id'] ?>" class="form-control">
+                                <input type="hidden" name="id_kasir" value="<?= $_SESSION['id'] ?>"
+                                    class="form-control">
                                 <input type="date" class="form-control" id="tanggal" name="tanggal"
-                                value="<?=date('Y-m-d');?>" required>
+                                    value="<?=date('Y-m-d');?>" required>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="id_ruangan">Ruangan<span class="text-danger">*</span></label>
+                                <label for="id_ruangan">Distribusi barang ke<span class="text-danger">*</span></label>
                                 <select name="id_ruangan" id="id_ruangan" class="form-control select2"
                                     style="width:100%;">
                                     <option value="">-- Pilih Ruangan --</option>
@@ -228,8 +234,7 @@ function submit(x) {
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="id_merek">Merek<span class="text-danger">*</span></label>
-                                <select name="id_merek" id="id_merek" class="form-control" style="width:100%;"
-                                disabled>
+                                <select name="id_merek" id="id_merek" class="form-control" style="width:100%;" disabled>
                                     <?= list_merek(); ?>
                                 </select>
                             </div>
@@ -238,7 +243,7 @@ function submit(x) {
                             <div class="form-group">
                                 <label for="id_kategori">Kategori<span class="text-danger">*</span></label>
                                 <select name="id_kategori" id="id_kategori" class="form-control" style="width:100%;"
-                                disabled    >
+                                    disabled>
                                     <?= list_kategori(); ?>
                                 </select>
                             </div>
@@ -247,7 +252,7 @@ function submit(x) {
                             <div class="form-group">
                                 <label for="id_kondisi">Kondisi<span class="text-danger">*</span></label>
                                 <select name="id_kondisi" id="id_kondisi" class="form-control" style="width:100%;"
-                                disabled   >
+                                    disabled>
                                     <?= list_kondisi(); ?>
                                 </select>
                             </div>
@@ -260,15 +265,18 @@ function submit(x) {
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="stok_display">Jumlah saat ini<span class="text-danger">*</span><span class="text-danger"></span></label>
+                                <label for="stok_display">Jumlah saat ini<span class="text-danger">*</span><span
+                                        class="text-danger"></span></label>
                                 <input type="hidden" name="stok">
-                                <input type="text" class="form-control uang" id="stok_display" name="stok_display" value="" disabled>
+                                <input type="text" class="form-control uang" id="stok_display" name="stok_display"
+                                    value="" disabled>
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label for="keterangan_transaksi">Keterangan<span class="text-danger">*</span></label>
-                                <textarea name="keterangan_transaksi" id="keterangan_transaksi" cols="30" rows="4" class="form-control" required></textarea>
+                                <label for="keterangan_transaksi">Keterangan:</label> <!-- Menghapus * dari label -->
+                                <textarea name="keterangan_transaksi" id="keterangan_transaksi" cols="30" rows="4"
+                                    class="form-control"></textarea> <!-- Menghapus required -->
                             </div>
                         </div>
                     </div>

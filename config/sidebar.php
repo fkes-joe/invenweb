@@ -53,7 +53,7 @@
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#inventaris" aria-expanded="true"
             aria-controls="inventaris">
             <i class="fas fa-fw fa-folder"></i>
-            <span>Sarpras</span>
+            <span>Inventaris</span>
         </a>
         <div id="inventaris" class="collapse <?=isset($inventaris)?'show':'';?>" aria-labelledby="headingTwo"
         data-parent="#accordionSidebar">

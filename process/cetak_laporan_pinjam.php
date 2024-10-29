@@ -47,9 +47,21 @@ include ('../config/function.php');
     $jenis_transaksi = 'pinjam';
     $tanggal_awal = $_POST['tanggal_awal'];
     $tanggal_akhir = $_POST['tanggal_akhir'];
-    $query = mysqli_query($con,"SELECT * FROM tb_transaksi LEFT JOIN tb_barang ON tb_transaksi.id_barang = tb_barang.id_barang LEFT JOIN tb_merek ON tb_merek.id_merek = tb_barang.id_merek LEFT JOIN tb_kategori ON tb_kategori.id_kategori = tb_barang.id_kategori LEFT JOIN tb_ruangan ON tb_ruangan.id_ruangan = tb_barang.id_ruangan LEFT JOIN tb_kondisi ON tb_kondisi.id_kondisi = tb_barang.id_kondisi WHERE jenis_transaksi = '$jenis_transaksi'  AND tb_transaksi.tanggal >= '$tanggal_awal' AND tb_transaksi.tanggal <= '$tanggal_akhir' ORDER BY tb_transaksi.tanggal ASC")or die(mysqli_error($con));
     
+    // Modifikasi query untuk mengambil keterangan_transaksi dari tb_transaksi
+    $query = mysqli_query($con,"SELECT tb_transaksi.*, tb_barang.nama_barang, tb_merek.nama_merek, tb_ruangan.nama_ruangan, tb_kondisi.nama_kondisi 
+        FROM tb_transaksi 
+        LEFT JOIN tb_barang ON tb_transaksi.id_barang = tb_barang.id_barang 
+        LEFT JOIN tb_merek ON tb_merek.id_merek = tb_barang.id_merek 
+        LEFT JOIN tb_kategori ON tb_kategori.id_kategori = tb_barang.id_kategori 
+        LEFT JOIN tb_ruangan ON tb_ruangan.id_ruangan = tb_barang.id_ruangan 
+        LEFT JOIN tb_kondisi ON tb_kondisi.id_kondisi = tb_barang.id_kondisi 
+        WHERE tb_transaksi.jenis_transaksi = '$jenis_transaksi' 
+        AND tb_transaksi.tanggal >= '$tanggal_awal' 
+        AND tb_transaksi.tanggal <= '$tanggal_akhir' 
+        ORDER BY tb_transaksi.tanggal ASC") or die(mysqli_error($con));
     ?>
+    
     <div style="page-break-after:always;text-align:center;margin-top:5%;">
         <div style="line-height:5px;">
         <h2>LAPORAN PEMINJAMAN BARANG TIK FKES</h2>
@@ -63,7 +75,7 @@ include ('../config/function.php');
                 <th>NAMA</th>
                 <th>MEREK</th>
                 <th>RUANGAN</th>
-                <th>KONDISI</th>
+                <th>PEMINJAM</th> <!-- Kolom Peminjam -->
                 <th>STATUS</th>
                 <th>JUMLAH</th>
             </tr>
@@ -72,9 +84,9 @@ include ('../config/function.php');
                 <td align="center"><?= $n++.'.'; ?></td>
                 <td><?= date('d-m-Y',strtotime($row['tanggal'])); ?></td>
                 <td><?= $row['nama_barang']; ?></td>
-                <td><?= $row['nama_merek']; ?></td>
+                <td><?= $row['nama_merek']; ?></td> <!-- Pastikan kolom ini ada di tabel tb_merek -->
                 <td><?= $row['nama_ruangan']; ?></td>
-                <td><?= $row['nama_kondisi']; ?></td>
+                <td><?= $row['keterangan_transaksi']; ?></td> <!-- Menampilkan keterangan_transaksi sebagai peminjam -->
                 <td><?= $row['status']; ?></td>
                 <td><?= $row['jumlah']; ?></td>
             </tr>

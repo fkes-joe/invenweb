@@ -1,110 +1,112 @@
 <?php hakAkses(['admin']); ?>
 <script>
-    var idBarang = '';
-    function submit(x) {
-        if (x == 'add') {
-            $('#barangmasukModal .modal-title').html('Tambah barang masuk');
+var idBarang = '';
 
-            $('[name="id_ruangan"]').val("").trigger('change')
-            $('[name="id_barang"]').val("")
-            idBarang = '';
-            $("#id_barang").empty();
-            $('#id_barang').prop('disabled', true);
-            $('[name="stok"]').val('')
-            $('[name="stok_display"]').val('')
+function submit(x) {
+    if (x == 'add') {
+        $('#barangmasukModal .modal-title').html('Tambah barang masuk');
+
+        $('[name="id_ruangan"]').val("").trigger('change')
+        $('[name="id_barang"]').val("")
+        idBarang = '';
+        $("#id_barang").empty();
+        $('#id_barang').prop('disabled', true);
+        $('[name="stok"]').val('')
+        $('[name="stok_display"]').val('')
 
 
-            $('[name="id_merek"]').val("").trigger('change')
-            $('[name="id_kategori"]').val("").trigger('change')
-            $('[name="id_kondisi"]').val("").trigger('change')
-            $('[name="jumlah"]').val("").trigger('change')
-            $('[name="keterangan_transaksi"]').val("").trigger('change')
-            $('[name="tanggal"]').val("").trigger('change')
+        $('[name="id_merek"]').val("").trigger('change')
+        $('[name="id_kategori"]').val("").trigger('change')
+        $('[name="id_kondisi"]').val("").trigger('change')
+        $('[name="jumlah"]').val("").trigger('change')
+        $('[name="keterangan_transaksi"]').val("").trigger('change')
+        $('[name="tanggal"]').val("").trigger('change')
 
-            $('[name="ubah"]').hide();
-            $('[name="tambah"]').show();
-        } else {
-            $('#barangmasukModal .modal-title').html('Edit barang masuk');
+        $('[name="ubah"]').hide();
+        $('[name="tambah"]').show();
+    } else {
+        $('#barangmasukModal .modal-title').html('Edit barang masuk');
 
-            $('[name="id_barang"]').val("").trigger('change')
-            $('[name="id_merek"]').val("").trigger('change')
-            $('[name="id_kategori"]').val("").trigger('change')
-            $('[name="id_ruangan"]').val("")
-            $('[name="id_kondisi"]').val("").trigger('change')
-            $('[name="jumlah"]').val("").trigger('change')
-            $('[name="keterangan_transaksi"]').val("").trigger('change')
-            $('[name="tanggal"]').val("").trigger('change')
+        $('[name="id_barang"]').val("").trigger('change')
+        $('[name="id_merek"]').val("").trigger('change')
+        $('[name="id_kategori"]').val("").trigger('change')
+        $('[name="id_ruangan"]').val("")
+        $('[name="id_kondisi"]').val("").trigger('change')
+        $('[name="jumlah"]').val("").trigger('change')
+        $('[name="keterangan_transaksi"]').val("").trigger('change')
+        $('[name="tanggal"]').val("").trigger('change')
 
-            $('[name="tambah"]').hide();
-            $('[name="ubah"]').show();
+        $('[name="tambah"]').hide();
+        $('[name="ubah"]').show();
 
-            $.ajax({
-                type: "POST",
-                data: {
-                    id: x
-                },
-                url: '<?= base_url(); ?>process/view_transaksi.php',
-                dataType: 'json',
-                success: function (data) {
-                    $('[name="id"]').val(data.id_transaksi);
-                    idBarang = data.id_barang
-                    $('[name="id_ruangan"]').val(data.id_ruangan).trigger('change')
+        $.ajax({
+            type: "POST",
+            data: {
+                id: x
+            },
+            url: '<?= base_url(); ?>process/view_transaksi.php',
+            dataType: 'json',
+            success: function(data) {
+                $('[name="id"]').val(data.id_transaksi);
+                idBarang = data.id_barang
+                $('[name="id_ruangan"]').val(data.id_ruangan).trigger('change')
 
-                    $('[name="jumlah"]').val(data.jumlah)
-                    $('[name="keterangan_transaksi"]').val(data.keterangan_transaksi)
-                    $('[name="tanggal"]').val(data.tanggal)
-                }
-            });
-        }
-
-        function setAllProperty() {
-            let selectedOption = $('#id_barang').find("option:selected");
-            if (!selectedOption) return;
-            let idMerek = selectedOption.data("id-merek")
-            let idKategori = selectedOption.data("id-kategori")
-            let idKondisi = selectedOption.data("id-kondisi")
-            let stok = selectedOption.data("stok")
-
-            $('[name="id_merek"]').val(idMerek)
-            $('[name="id_kategori"]').val(idKategori)
-            $('[name="id_kondisi"]').val(idKondisi)
-
-            // Ini
-            $('[name="stok"]').val(stok)
-            $('[name="stok_display"]').val(stok)
-        }
-
-        function enableBarang() {
-            let selectedOption = $('#id_ruangan').find("option:selected").val()
-            if (!selectedOption) return;
-            $.ajax({
-                type: "POST",
-                data: {
-                    id_ruangan: selectedOption
-                },
-                url: '<?= base_url(); ?>process/view_barang_by_ruangan.php',
-                dataType: 'json',
-                success: function (data) {
-                    $("#id_barang").empty();
-
-                    if (!data.result) {
-                        $("#id_barang").append('<option value="">-- Tidak ada data barang di ruangan --</option>');
-                        return;
-                    }
-
-                    $('#id_barang').prop('disabled', false);
-                    $("#id_barang").append(data.result);
-                    $('[name="id_barang"]').val(idBarang).trigger('change')
-
-                }
-            });
-        }
-
-        $(document).ready(function () {
-            $("#id_barang").on("change", setAllProperty);
-            $("#id_ruangan").on("change", enableBarang)
-        })
+                $('[name="jumlah"]').val(data.jumlah)
+                $('[name="keterangan_transaksi"]').val(data.keterangan_transaksi)
+                $('[name="tanggal"]').val(data.tanggal)
+            }
+        });
     }
+
+    function setAllProperty() {
+        let selectedOption = $('#id_barang').find("option:selected");
+        if (!selectedOption) return;
+        let idMerek = selectedOption.data("id-merek")
+        let idKategori = selectedOption.data("id-kategori")
+        let idKondisi = selectedOption.data("id-kondisi")
+        let stok = selectedOption.data("stok")
+
+        $('[name="id_merek"]').val(idMerek)
+        $('[name="id_kategori"]').val(idKategori)
+        $('[name="id_kondisi"]').val(idKondisi)
+
+        // Ini
+        $('[name="stok"]').val(stok)
+        $('[name="stok_display"]').val(stok)
+    }
+
+    function enableBarang() {
+        let selectedOption = $('#id_ruangan').find("option:selected").val()
+        if (!selectedOption) return;
+        $.ajax({
+            type: "POST",
+            data: {
+                id_ruangan: selectedOption
+            },
+            url: '<?= base_url(); ?>process/view_barang_by_ruangan.php',
+            dataType: 'json',
+            success: function(data) {
+                $("#id_barang").empty();
+
+                if (!data.result) {
+                    $("#id_barang").append(
+                        '<option value="">-- Tidak ada data barang di ruangan --</option>');
+                    return;
+                }
+
+                $('#id_barang').prop('disabled', false);
+                $("#id_barang").append(data.result);
+                $('[name="id_barang"]').val(idBarang).trigger('change')
+
+            }
+        });
+    }
+
+    $(document).ready(function() {
+        $("#id_barang").on("change", setAllProperty);
+        $("#id_ruangan").on("change", enableBarang)
+    })
+}
 </script>
 <!-- Begin Page Content -->
 <div class="container-fluid">
@@ -144,7 +146,7 @@
                             <th>RUANGAN</th>
                             <th>KONDISI</th>
                             <th>JUMLAH</th>
-                            <th>KETERANGAN</th>
+                            <th>PENERIMA</th>
                             <th>AKSI</th>
                         </tr>
                     </thead>
@@ -154,47 +156,47 @@
                         $query = mysqli_query($con, "SELECT tb_transaksi.*, tb_barang.nama_barang, tb_barang.keterangan_barang, tb_merek.nama_merek, tb_kategori.nama_kategori, tb_kondisi.nama_kondisi, tb_ruangan.nama_ruangan FROM tb_transaksi LEFT JOIN tb_barang ON tb_transaksi.id_barang = tb_barang.id_barang LEFT JOIN tb_merek ON tb_merek.id_merek = tb_barang.id_merek LEFT JOIN tb_kategori ON tb_kategori.id_kategori = tb_barang.id_kategori LEFT JOIN tb_ruangan ON tb_ruangan.id_ruangan = tb_barang.id_ruangan LEFT JOIN tb_kondisi ON tb_kondisi.id_kondisi = tb_barang.id_kondisi WHERE jenis_transaksi = 'masuk' ORDER BY tanggal ASC") or die(mysqli_error($con));
                         while ($row = mysqli_fetch_array($query)):
                             ?>
-                            <tr>
-                                <td>
-                                    <?= $n++; ?>
-                                </td>
-                                <td>
-                                    <?= date('d-m-Y', strtotime($row['tanggal'])); ?>
-                                </td>
-                                <td>
-                                    <?= $row['nama_barang']; ?>
-                                </td>
-                                <td>
-                                    <?= $row['nama_merek']; ?>
-                                </td>
-                                <td>
-                                    <?= $row['nama_kategori']; ?>
-                                </td>
-                                <td>
-                                    <?= $row['nama_ruangan']; ?>
-                                </td>
-                                <td>
-                                    <?= $row['nama_kondisi']; ?>
-                                </td>
-                                <td>
-                                    <?= $row['jumlah']; ?>
-                                </td>
-                                <td>
-                                    <?= $row['keterangan_transaksi']; ?>
-                                </td>
-                                <td>
-                                    <div class="d-inline-flex p-2">
-                                        <a href="#barangmasukModal" data-toggle="modal"
-                                            onclick="submit(<?= $row['id_transaksi']; ?>)"
-                                            class="btn btn-sm btn-circle btn-info mr-2"><i class="fas fa-edit"></i></a>
-                                        <?php if ($_SESSION['role'] == 'admin'): ?>
-                                            <a href="<?= base_url(); ?>/process/process_barang_masuk.php?act=<?= encrypt('delete'); ?>&id=<?= encrypt($row['id_transaksi']); ?>"
-                                                class="btn btn-sm btn-circle btn-danger btn-hapus"><i
-                                                    class="fas fa-trash"></i></a>
-                                        <?php endif; ?>
-                                    </div>
-                                </td>
-                            </tr>
+                        <tr>
+                            <td>
+                                <?= $n++; ?>
+                            </td>
+                            <td>
+                                <?= date('d-m-Y', strtotime($row['tanggal'])); ?>
+                            </td>
+                            <td>
+                                <?= $row['nama_barang']; ?>
+                            </td>
+                            <td>
+                                <?= $row['nama_merek']; ?>
+                            </td>
+                            <td>
+                                <?= $row['nama_kategori']; ?>
+                            </td>
+                            <td>
+                                <?= $row['nama_ruangan']; ?>
+                            </td>
+                            <td>
+                                <?= $row['nama_kondisi']; ?>
+                            </td>
+                            <td>
+                                <?= $row['jumlah']; ?>
+                            </td>
+                            <td>
+                                <?= $row['keterangan_transaksi']; ?>
+                            </td>
+                            <td>
+                                <div class="d-inline-flex p-2">
+                                    <a href="#barangmasukModal" data-toggle="modal"
+                                        onclick="submit(<?= $row['id_transaksi']; ?>)"
+                                        class="btn btn-sm btn-circle btn-info mr-2"><i class="fas fa-edit"></i></a>
+                                    <?php if ($_SESSION['role'] == 'admin'): ?>
+                                    <a href="<?= base_url(); ?>/process/process_barang_masuk.php?act=<?= encrypt('delete'); ?>&id=<?= encrypt($row['id_transaksi']); ?>"
+                                        class="btn btn-sm btn-circle btn-danger btn-hapus"><i
+                                            class="fas fa-trash"></i></a>
+                                    <?php endif; ?>
+                                </div>
+                            </td>
+                        </tr>
                         <?php endwhile; ?>
                     </tbody>
                 </table>
@@ -289,11 +291,12 @@
                                     disabled>
                             </div>
                         </div>
-                        <div class="col-md-12">
+                        <div class="col-md-6" style="max-width: 400px;">
+                            <!-- Mengatur lebar maksimum -->
                             <div class="form-group">
-                                <label for="keterangan_transaksi">Keterangan<span class="text-danger">*</span></label>
-                                <textarea name="keterangan_transaksi" id="keterangan_transaksi" cols="30" rows="4"
-                                    class="form-control" required></textarea>
+                                <label for="keterangan_transaksi">Penerima:</label>
+                                <textarea name="keterangan_transaksi" id="keterangan_transaksi" cols="300" rows="1"
+                                    class="form-control"></textarea>
                             </div>
                         </div>
                     </div>

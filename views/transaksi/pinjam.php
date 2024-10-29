@@ -147,7 +147,7 @@ function submit(x) {
                             <th>RUANGAN</th>
                             <th>KONDISI</th>
                             <th>JUMLAH</th>
-                            <th>KETERANGAN</th>
+                            <th>PEMINJAM</th>
                             <th>AKSI</th>
                         </tr>
                     </thead>
@@ -282,10 +282,10 @@ function submit(x) {
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-12">
+                        <div class="col-md-6">
                             <div class="form-group">
-                                <label for="keterangan_transaksi">Keterangan<span class="text-danger">*</span></label>
-                                <textarea name="keterangan_transaksi" id="keterangan_transaksi" cols="30" rows="4" class="form-control" required></textarea>
+                                <label for="keterangan_transaksi">Nama Peminjam<span class="text-danger">*</span></label>
+                                <textarea name="keterangan_transaksi" id="keterangan_transaksi" cols="10" rows="1" class="form-control" required></textarea>
                             </div>
                         </div>
                     </div>
