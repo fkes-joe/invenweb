@@ -1,7 +1,12 @@
-<?php 
+<?php
 session_start();
+
+$base_url = "http://192.168.31.12/invenweb/";
+// Pastikan $base_url sudah didefinisikan sebelumnya
 if(!isset($_SESSION['username']) || !isset($_SESSION['role'])):
-    header("Location:".$base_url."login.php");
+    // Arahkan ke login.php jika sesi tidak ada
+    header("Location: ".$base_url."login.php");
+    exit(); // Pastikan untuk menghentikan eksekusi skrip setelah pengalihan
 else:
     include('config/header.php');
     session_timeout();
@@ -25,9 +30,11 @@ else:
                 <?php if(isset($_SESSION['success'])):?>
                 <div class="flash-data-berhasil" data-berhasil="<?= $_SESSION['success']; ?>"></div>
                 <?php endif; unset($_SESSION['success']);?>
+
                 <?php if(isset($_SESSION['error'])):?>
                 <div class="flash-data-gagal" data-gagal="<?= $_SESSION['error']; ?>"></div>
                 <?php endif; unset($_SESSION['error']);?>
+
                 <?php include ($views); ?>
             </div>
             <!-- End of Main Content -->
@@ -36,7 +43,7 @@ else:
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; INVENTARIS TIK FKES <?= date('Y'); ?> 
+                        <span>Copyright &copy; INVENTARIS TIK FKES <?= date('Y'); ?>
                         </span>
                     </div>
                 </div>
@@ -49,4 +56,4 @@ else:
     </div>
     <!-- End of Page Wrapper -->
     <?php include "config/footer.php"; ?>
-    <?php endif;?>
+<?php endif; ?>
