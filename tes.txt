@@ -1,0 +1,21 @@
+
+Day 01 - Cyber Security Fundamental & Understanding Penetration Testing
+Day 02 - Setup Kali Linux Virtual Machine and Tools
+Day 03 - Understanding How Linux Work
+Day 04 - Understanding Network Fundamental (OSI Layer, Ports, IP, Etc..)
+Day 05 - Bug Bounty Fun n Profit $$$$
+Day 06 - Hacking Machine Server Series
+Day 07 - Building Attack & Defense (Wazuh SIEM) Part 1
+Day 08 - Analyze Attack & Defense (Wazuh SIEM) Part 1
+Day 09 - Vulnerability Scanning (Burpsuite, Acunetix, Nuclei, Etc...)
+Day 10 - Information Disclosure & Sensitive Data Exposure
+Day 11 - Security Miss Configuration & Broken Auth Management
+Day 12 - HTML Injection & XSS
+Day 13 - SQL Injection (Manual, Automated, Post Data Method)
+Day 14 - CSRF & Unrestricted File Upload
+Day 15 - Desktop Penetration Testing Part 1 (BONUS!)
+Day 16 - Desktop Penetration Testing Part 2 (BONUS!)
+Day 17 - Infrastructure Penetration Testing (BONUS!) - (Nessus, Etc...)
+Day 18 - Android Penetration Testing (BONUS!) - Static Analysis
+Day 19 - Android Penetration Testing (BONUS!) - Dynamic Analysis
+Day 20 - ATM & Wi-Fi Penetration Testing (BONUS!)
